@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图书管理系统</title>
+    <style>
+        html,body{
+            background: #1c1c22;
+            color:white;
+            text-decoration: none;
+            margin: 0;
+        }
+        a{
+            color:#00b7ff;
+            text-decoration: none;
+        }
+        h3{
+            padding: 40px;
+        }
+        .nav-left ul{
+            font-size: 20px;
+            padding: 0 16px;
+            list-style: none;
+        }
+        .menu{
+            margin:20px 20px;
+            height: 50px;
+            background: #0066ff;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+        }
+        .menu a{
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            color:white;
+        }
+        .menu img{
+            height:30px;
+            object-fit: cover;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translate(-50%,-50%);
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-left">
+        <h3>
+            <img src="images/logo.png" alt="" style="width:200px;object-fit: cover"/>
+        </h3>
+        <ul>
+            <li class="menu">
+                <img src="images/home.svg" alt=""/>
+                <a href="/home" target="right">首页</a>
+            </li>
+            <li class="menu">
+                <img src="images/home.svg" alt=""/>
+                <a href="/find" target="right">查找图书</a>
+            </li>
+            <li class="menu">
+                <img src="images/home.svg" alt=""/>
+                <a href='/lend?id=' target="right">借书</a>
+            </li>
+            <li class="menu">
+                <img src="images/home.svg" alt=""/>
+                <a href="/return">还书</a>
+            </li>
+        </ul>
+    </div>
+    <script src="javascripts/jquery-3.7.0.min.js"></script>
+    <script>
+        function ReceivedMsg(msg){
+            console.log(msg);
+        }
+    </script>
+</body>
+</html>

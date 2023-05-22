@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>查找图书</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <style>
+        body{
+            background: #15151D;
+            color:white;
+            margin: 0;
+        }
+        .container{
+            width: 100vw;
+            height: 100vh;
+            background: #15151D;
+        }
+        .main{
+            padding: 20px 30px;
+            overflow: hidden;
+        }
+        .content{
+            color: #999999;
+            background: #1b1c21;
+            padding: 20px 20px;
+            border-radius: 24px;
+        }
+        .select{
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            background: #1b1c21;
+            border-radius: 24px;
+        }
+        .select select{
+            padding: 0 20px;
+            width: 20%;
+            height: 40px;
+            color: #999999;
+            background: #fff;
+            border-radius: 12px;
+            outline: none;
+        }
+        .search{
+            display: flex;
+            width: 70%;
+            height: 40px;
+            color: #999999;
+            background: #fff;
+            border-radius: 12px;
+            outline: none;
+            overflow: hidden;
+        }
+        .search input{
+            padding: 0 20px;
+            outline: none;
+            flex:1;
+        }
+        .search button{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 40px;
+            outline: none;
+            background: #067bfb;
+        }
+        .lendButton{
+            background: #067bfb;
+            color:#fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .search button img{
+            width: 25px;
+            height: 25px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main">
+        <form action="/search" method="post">
+            <div class="select">
+                <select name="key" id="key">
+                    <option value="BookName" <%if(searchKey==="BookName"){%>selected<%}%>>书名</option>
+                    <option value="LibraryName" <%if(searchKey==="LibraryName"){%>selected<%}%>>图书馆</option>
+                    <option value="BookShelfFloor" <%if(searchKey==="BookShelfFloor"){%>selected<%}%>>楼层</option>
+                </select>
+                <div class="search">
+
+                    <input type="text" name="value" value=<%=searchValue%>>
+                    <button>
+                        <img src="/images/search.svg" alt=""/>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="main">
+
+        <div class="content">
+            <table class="table table">
+                <thead>
+                <tr>
+                    <th>书名</th>
+                    <th>图书馆</th>
+                    <th>楼层</th>
+                    <th>书架</th>
+                    <th>当前状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% bookList.forEach(function(item){ %>
+                        <tr>
+                            <td><%= item.BookName %></td>
+                            <td><%= item.LibraryName %></td>
+                            <td><%= item.BookShelfFloor %></td>
+                            <td><%= item.BookShelfZone %></td>
+                            <td><%= item.RentCondition %></td>
+                            <td><button class="lendButton" data-id="<%=item.BookID%>" <%if(item.RentCondition!=="Available"){%>disabled<%}%>>借阅</button></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="javascripts/jquery-3.7.0.min.js"></script>
+<script>
+    $(function (){
+        var id='';
+        $('.lendButton').click(function (){
+            id = $(this).data('id');
+            window.location.href = `/lend?id=${id}`;
+        })
+    })
+</script>
+
+</body>
+</html>

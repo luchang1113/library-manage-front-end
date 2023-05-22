@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>users</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css" />
+    <link rel='stylesheet' href='/stylesheets/users-style.css' />
+</head>
+
+<body>
+    <div class="box">
+        <div id="page1" class="page open" style="--b:rgba(255,0,0,0.2)">
+            <img src="/images/book.svg" alt=""/>
+            <span>欢迎 <%= userID %> <%= username %> 使用图书管理系统</span>
+        </div>
+        <div id="page2" class="page close" style="--b:rgba(0,102,255,0.2)">
+            <div class="search-bar">
+                <select id="search-key">
+                    <option value="BookName">书名</option>
+                    <option value="LibraryName">图书馆</option>
+                    <option value="BookShelfFloor">楼层</option>
+                </select>
+                <input id="search-value" type="text" name="value">
+                <button id="search-button" onclick="searchBook()">
+                    <ion-icon name="search-outline"></ion-icon>
+                </button>
+            </div>
+            <div class="content">
+                <table class="table table">
+                    <thead>
+                    <tr>
+                        <th>书名</th>
+                        <th>图书馆</th>
+                        <th>楼层</th>
+                        <th>书架</th>
+                        <th>当前状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="res-table">
+                    <% bookList.forEach(function(item){ %>
+                        <tr>
+                            <td><%= item.BookName %></td>
+                            <td><%= item.LibraryName %></td>
+                            <td><%= item.BookShelfFloor %></td>
+                            <td><%= item.BookShelfZone %></td>
+                            <td><%= item.RentCondition %></td>
+                            <td><button class="lendButton" onclick="clickBtn(this.id)" id="<%=item.BookID%>" <%if(item.RentCondition!=="Available"){%>disabled<%}%>>借阅</button></td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 借书界面 -->
+        <div id="page3" class="page close" style="--b:rgba(85,0,255,0.2)">
+            <span>图书ID</span><input id="borrow-book" type="text">
+            <span>借书人ID</span><span><%= userID %></span>
+            <span>还书日期</span>
+            <input id="return-time" type="date">
+            <button id="borrow-button" onclick="borrowBook()">
+                借书
+            </button>
+        </div>
+        <!-- 还书界面 -->
+        <div id="page4" class="page close" style="--b:rgba(85,255,0,0.2)">
+            <span>还书</span>
+            <div class="content">
+                <table class="table table">
+                    <thead>
+                    <tr>
+                        <th>书名</th>
+                        <th>还书时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="unreturned-table">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="nav">
+            <ul>
+                <li class="checked" style="--b:rgba(255,0,0,0.2)">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>主页</span>
+                </li>
+                <li class="no-checked" style="--b:rgba(0,102,255,0.2)">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <span>查找</span>
+                </li>
+                <li class="no-checked" style="--b:rgba(85,0,255,0.2)">
+                    <ion-icon name="arrow-down-outline"></ion-icon>
+                    <span>借书</span>
+                </li>
+                <li class="no-checked" style="--b:rgba(85,255,0,0.2)">
+                    <ion-icon name="arrow-up-outline"></ion-icon>
+                    <span>还书</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="javascripts/jquery-3.7.0.min.js"></script>
+<script>
+    let lis = document.getElementById("nav").children[0].children;
+    for (let i = 0; i < lis.length; i++) {
+        lis[i].setAttribute("onclick","openPage(" + i + ")");
+    }
+    let searchBtn = document.getElementById("search-button");
+    const userID = "<%= userID %>";
+
+    function searchBook() {
+        const key = document.getElementById("search-key").value;
+        const value = document.getElementById("search-value").value;
+        $.get('/search?key='+key+'&value='+value,(data)=>{
+            console.log(data);
+            $("#res-table").empty();
+            for (let i = 0; i < data.length; i++) {
+                const isActive = (data[i].RentCondition==="Available")?"":"disabled";
+                $("#res-table").append("<tr><td>"+data[i].BookName+"</td><td>"+data[i].LibraryName+"</td><td>"+data[i].BookShelfFloor+"</td><td>"+data[i].BookShelfZone+"</td><td>"+data[i].RentCondition+"</td><td>"+"<button class=\"lendButton\" onclick=\"clickBtn(this.id)\" id=" + data[i].BookID + " " + isActive+">借阅</button>"+"</td></tr>");
+            }
+        });
+    }
+
+    function getUnreturned() {
+        $.get('/unreturned?userID='+userID,(data)=>{
+            console.log(data);
+            $("#unreturned-table").empty();
+            for (let i = 0; i < data.length; i++) {
+                $("#unreturned-table").append("<tr><td>"+data[i].BookName+"</td><td>"+data[i].ExpectedReturnTime+"</td><td>"+"<button class=\"returnButton\" onclick=\"returnBook(this.id)\" id=" + data[i].BookID + ">还书</button>"+"</td></tr>");
+            }
+        })
+    }
+
+    function returnBook(id){
+
+    }
+
+    function borrowBook() {
+        const book = document.getElementById("borrow-book").value;
+        const date = document.getElementById("return-time").value;
+        $.get("/borrow?book="+book+"&name="+userID+"&date="+date);
+    }
+
+    function openPage(index) {
+        if(index===1){
+            searchBook();
+        }
+        if(index===3) {
+            getUnreturned();
+        }
+        for (let i = 0; i < lis.length; i++) {
+            if(lis[i] === lis[index]) {
+                document.getElementById("page" + (i + 1)).classList.replace("close","open");
+                lis[i].classList.replace("no-checked","checked");
+            } else {
+                document.getElementById("page" + (i + 1)).classList.replace("open","close");
+                lis[i].classList.replace("checked","no-checked");
+            }
+
+        }
+    }
+
+    function clickBtn(e){
+        console.log(e);
+        document.getElementById("borrow-book").value=e;
+        openPage(2);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    height: 100vh;
+    font-family: "PingFang SC","Microsoft Yahei",sans-serif;
+    background: rgba(30,30,30,1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.box {
+    background: white;
+    width: 80%;
+    height: 80%;
+    position: relative;
+    border-radius: 20px;
+}
+
+.box > .page{
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background: var(--b);
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+}
+
+.search-bar {
+    height: 40px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 40px;
+    overflow: hidden;
+    margin-bottom: 60px;
+}
+
+.search-bar select {
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 80px;
+    padding: 0 10px;
+    background: rgba(0,102,255,0.1);
+}
+
+.search-bar input {
+    outline: none;
+    border: none;
+    flex-grow: 1;
+    height: 100%;
+    padding: 0 15px;
+}
+
+.search-bar button {
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 100px;
+    padding: 0 15px;
+    background: rgba(0,102,255,0.2);
+}
+
+.content {
+    height: 75%;
+    width: 80%;
+    background: rgba(0,102,255,0.1);
+    display: flow;
+    border-radius: 24px;
+    overflow: hidden;
+    padding: 24px;
+}
+
+.content table{
+    scroll-behavior: auto;
+}
+
+.content button {
+    background: rgba(0,102,255,0.1);
+    outline: none;
+    border: none;
+    height:24px;
+    width: 50px;
+    border-radius: 4px;
+}
+
+.content button:hover {
+    background: rgba(0,102,255,0.3);
+    transition: 0.2s;
+}
+
+.content button:disabled,button[disabled]{
+    background: rgba(0,0,0,0.3);
+}
+
+.open{
+    visibility: visible;
+}
+
+.close{
+    visibility: hidden;
+}
+
+#nav{
+    width: 100%;
+    height: 70px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#nav ul > li {
+    box-sizing: border-box;
+    border-radius: 30px;
+    height: 35px;
+    margin: 0 5px;
+    padding: 0 15px;
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+
+#nav li > ion-icon {
+    padding-right: 5px;
+    font-size: 18px;
+}
+
+#nav li > span {
+    word-break: break-all;
+    white-space: nowrap;
+    user-select: none;
+    overflow: hidden;
+    font-size: 16px;
+    transition: 0.5s;
+}
+
+.checked {
+    background: var(--b);
+}
+
+.checked > span {
+    width: 35px;
+    opacity: 1;
+}
+
+.no-checked > span {
+    opacity: 0;
+    width: 0;
+}
