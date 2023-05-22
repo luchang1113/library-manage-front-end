@@ -10,73 +10,73 @@
     <div class="box">
         <div id="page1" class="page open" style="--b:rgba(255,0,0,0.2)">
             <img src="/images/book.svg" alt=""/>
-            <span>欢迎 <%= userID %> <%= username %> 使用图书管理系统</span>
+            <span>欢迎使用图书管理系统</span>
         </div>
         <div id="page2" class="page close" style="--b:rgba(0,102,255,0.2)">
-            <div class="search-bar">
-                <select id="search-key">
-                    <option value="BookName">书名</option>
-                    <option value="LibraryName">图书馆</option>
-                    <option value="BookShelfFloor">楼层</option>
-                </select>
-                <input id="search-value" type="text" name="value">
-                <button id="search-button" onclick="searchBook()">
-                    <ion-icon name="search-outline"></ion-icon>
-                </button>
-            </div>
-            <div class="content">
-                <table class="table table">
-                    <thead>
-                    <tr>
-                        <th>书名</th>
-                        <th>图书馆</th>
-                        <th>楼层</th>
-                        <th>书架</th>
-                        <th>当前状态</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody id="res-table">
-                    <% bookList.forEach(function(item){ %>
+            <div class="container">
+                <div class="search-bar">
+                    <select id="search-key">
+                        <option value="BookName">书名</option>
+                        <option value="LibraryName">图书馆</option>
+                        <option value="BookShelfFloor">楼层</option>
+                    </select>
+                    <input id="search-value" type="text" name="value">
+                    <button id="search-button" onclick="searchBook()">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </button>
+                </div>
+                <div class="content">
+                    <table class="table table">
+                        <thead>
                         <tr>
-                            <td><%= item.BookName %></td>
-                            <td><%= item.LibraryName %></td>
-                            <td><%= item.BookShelfFloor %></td>
-                            <td><%= item.BookShelfZone %></td>
-                            <td><%= item.RentCondition %></td>
-                            <td><button class="lendButton" onclick="clickBtn(this.id)" id="<%=item.BookID%>" <%if(item.RentCondition!=="Available"){%>disabled<%}%>>借阅</button></td>
+                            <th>书名</th>
+                            <th>图书馆</th>
+                            <th>楼层</th>
+                            <th>书架</th>
+                            <th>当前状态</th>
+                            <th>操作</th>
                         </tr>
-                    <% }) %>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody id="res-table">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <!-- 借书界面 -->
         <div id="page3" class="page close" style="--b:rgba(85,0,255,0.2)">
-            <span>图书ID</span><input id="borrow-book" type="text">
-            <span>借书人ID</span><span><%= userID %></span>
-            <span>还书日期</span>
-            <input id="return-time" type="date">
-            <button id="borrow-button" onclick="borrowBook()">
+            <div class="borrow-row">
+                <span>图书ID</span><input id="borrow-book" type="text">
+            </div>
+            <div class="borrow-row">
+                <span>借书人ID</span>
+                <span><%= userID %></span>
+            </div>
+            <div class="borrow-row">
+                <span>还书日期</span><input id="return-time" type="date">
+            </div>
+            <button class="borrow-button" id="borrow-button" onclick="borrowBook()">
                 借书
             </button>
         </div>
         <!-- 还书界面 -->
         <div id="page4" class="page close" style="--b:rgba(85,255,0,0.2)">
-            <span>还书</span>
-            <div class="content">
-                <table class="table table">
-                    <thead>
-                    <tr>
-                        <th>书名</th>
-                        <th>还书时间</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody id="unreturned-table">
+            <div class="container">
+                <span>还书</span>
+                <div class="content">
+                    <table class="table table">
+                        <thead>
+                        <tr>
+                            <th>书名</th>
+                            <th>还书时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="unreturned-table">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div id="nav">
@@ -135,13 +135,22 @@
     }
 
     function returnBook(id){
-
+        $.get("/return?userID="+userID+"&bookID="+id,(data)=>{
+            alert(data);
+        })
+        getUnreturned();
     }
 
     function borrowBook() {
         const book = document.getElementById("borrow-book").value;
         const date = document.getElementById("return-time").value;
-        $.get("/borrow?book="+book+"&name="+userID+"&date="+date);
+        if(date!=="" && book !== ""){
+            $.get("/borrow?book="+book+"&name="+userID+"&date="+date,(data)=>{
+                alert(data);
+            });
+        }else{
+            alert("图书ID与还书日期不得为空");
+        }
     }
 
     function openPage(index) {

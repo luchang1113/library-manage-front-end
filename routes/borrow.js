@@ -16,11 +16,9 @@ router.get('/', function(req, res, next) {
     console.log(cmd);
     db.query(cmd,function(err,data) {
         if (err) {
-            console.log("borrow failed");
-            res.send("borrow failed")
+            res.send("借书失败")
         } else {
-            console.log(data);
-            res.send("borrow success")
+            res.send("借书成功")
         }
     })
 

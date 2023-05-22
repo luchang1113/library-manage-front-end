@@ -36,14 +36,24 @@ body{
     padding: 60px;
 }
 
+.container {
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 24px;
+    overflow: hidden;
+    padding: 0;
+}
+
 .search-bar {
     height: 40px;
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    border-radius: 40px;
     overflow: hidden;
-    margin-bottom: 60px;
 }
 
 .search-bar select {
@@ -52,7 +62,39 @@ body{
     height: 100%;
     width: 80px;
     padding: 0 10px;
-    background: rgba(0,102,255,0.1);
+    background: rgba(0,102,255,0.2);
+}
+
+.borrow-row{
+    height: 40px;
+    width: 80%;
+    margin: 20px;
+    background: rgba(85,0,255,0.2);
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.borrow-button{
+    height: 40px;
+    width: 80px;
+    margin: 20px;
+    background: rgba(85,0,255,0.2);
+    border-radius: 24px;
+    overflow: hidden;
+    outline: none;
+    border: none;
+}
+
+.borrow-button:hover{
+    background: rgba(85,0,255,0.3);
+}
+
+.borrow-button:active{
+    background: rgba(85,0,255,0.1);
 }
 
 .search-bar input {
@@ -73,17 +115,13 @@ body{
 }
 
 .content {
-    height: 75%;
-    width: 80%;
+    height: calc(100% - 40px);
+    width: 100%;
     background: rgba(0,102,255,0.1);
     display: flow;
-    border-radius: 24px;
-    overflow: hidden;
+    overflow: auto;
     padding: 24px;
-}
-
-.content table{
-    scroll-behavior: auto;
+    scrollbar-width: none;
 }
 
 .content button {
