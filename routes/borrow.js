@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
     const cmd = "INSERT INTO library_manage.lend (RenterID, BookID, RentTime, ExpectedReturnTime, Returned)\n" +
         'VALUES (' + req.query.name + ', '+ req.query.book +', \'' + today + '\', \'' + req.query.date + '\', 0);';
     console.log(cmd);
-    db.query(cmd,function(err,data) {
+    db.query(cmd,function(err) {
         if (err) {
             res.send("借书失败")
         } else {

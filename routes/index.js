@@ -1,5 +1,4 @@
 const express = require('express');
-const querystring = require("querystring");
 const db = require('../sql')
 const router = express.Router();
 
