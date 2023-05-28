@@ -10,6 +10,8 @@ var borrowRouter = require('./routes/borrow');
 var searchRouter = require('./routes/search');
 var unReturnedRouter = require('./routes/unreturned');
 var returnRouter = require('./routes/return');
+var recordRouter = require('./routes/record');
+
 
 var app = express();
 
@@ -29,6 +31,7 @@ app.use('/borrow', borrowRouter);
 app.use('/search', searchRouter);
 app.use('/unreturned', unReturnedRouter);
 app.use('/return', returnRouter);
+app.use('/record', recordRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

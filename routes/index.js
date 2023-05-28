@@ -14,7 +14,7 @@ router.post('/main', function (req, res, next) {
     db.query("select * from user where username = ? and password = ?", [loginInfo.username, loginInfo.password], (err, result, field) => {
         if (err) throw err;
         if (result.length > 0) {
-                    res.render('users',{username:loginInfo.username,userID:result[0].peopleID});
+            res.render('users',{username:loginInfo.username,userID:result[0].peopleID});
         } else {
             res.writeHead(200, {'Content-Type': 'text/html;charset=utf8;'})
             res.write('登陆失败');

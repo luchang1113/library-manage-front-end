@@ -79,6 +79,28 @@
                 </div>
             </div>
         </div>
+        <!-- 记录界面 -->
+        <div id="page5" class="page close" style="--b:rgba(85,255,0,0.2)">
+            <div class="container">
+                <span>个人全部借书记录</span>
+                <div class="content">
+                    <table class="table table">
+                        <thead>
+                        <tr>
+                            <th>书名</th>
+                            <th>书架</th>
+                            <th>图书馆</th>
+                            <th>借书时间</th>
+                            <th>还书时间</th>
+                        </tr>
+                        </thead>
+                        <tbody id="search-lend-table">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div id="nav">
             <ul>
                 <li class="checked" style="--b:rgba(255,0,0,0.2)">
@@ -96,6 +118,10 @@
                 <li class="no-checked" style="--b:rgba(85,255,0,0.2)">
                     <ion-icon name="arrow-up-outline"></ion-icon>
                     <span>还书</span>
+                </li>
+                <li class="no-checked" style="--b:rgba(85,255,0,0.2)">
+                    <ion-icon name="arrow-up-outline"></ion-icon>
+                    <span>记录</span>
                 </li>
             </ul>
         </div>
@@ -122,6 +148,16 @@
                 $("#res-table").append("<tr><td>"+data[i].BookName+"</td><td>"+data[i].LibraryName+"</td><td>"+data[i].BookShelfFloor+"</td><td>"+data[i].BookShelfZone+"</td><td>"+data[i].RentCondition+"</td><td>"+"<button class=\"lendButton\" onclick=\"clickBtn(this.id)\" id=" + data[i].BookID + " " + isActive+">借阅</button>"+"</td></tr>");
             }
         });
+    }
+
+    function getRecord() {
+        $.get('/record?userID='+userID,(data)=>{
+            console.log(data);
+            $("#search-lend-table").empty();
+            for (let i = 0; i < data.length; i++) {
+                $("#search-lend-table").append("<tr><td>"+data[i].BookName+"</td><td>"+data[i].BookShelfZone+"</td><td>"+data[i].LibraryName+"</td><td>"+data[i].RentTime+"</td><td>"+data[i].ExpectedReturnTime+"</td></tr>");
+            }
+        })
     }
 
     function getUnreturned() {
@@ -159,6 +195,9 @@
         }
         if(index===3) {
             getUnreturned();
+        }
+        if(index===4) {
+            getRecord();
         }
         for (let i = 0; i < lis.length; i++) {
             if(lis[i] === lis[index]) {
